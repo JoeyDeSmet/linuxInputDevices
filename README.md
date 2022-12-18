@@ -27,10 +27,10 @@ The on_key_down and on_key_up functions accept a key code and a callback functio
 The key codes are defined in the keyboard-layout.hpp file. 
 The callback function will be called when the corresponding event occurs.
 
-You can also remove registered events using the remove_event function:
+You can also remove registered events using the remove_events function:
 
 ```cpp
-keyboard.remove_event(KeyCode::A);
+keyboard.remove_events(KeyCode::A);
 ```
 
 This will remove the callback functions registered for the KeyCode::A key, for both up and down events.

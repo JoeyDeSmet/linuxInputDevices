@@ -21,32 +21,6 @@ KeyBoardEvents::~KeyBoardEvents() {
   m_thread.join();
 }
 
-void KeyBoardEvents::remove_event(char keycode) {
-  // TODO: Implement
-}
-
-void KeyBoardEvents::on_key_down (char keycode, std::function<void ()> callback) {
-  auto itr = m_keydown_callback_map.find(keycode);
-
-  if (itr != m_keydown_callback_map.end()) {
-    m_keydown_callback_map.at(keycode) = callback;
-    return;
-  } 
-
-  m_keydown_callback_map[keycode] = callback;
-}
-
-void KeyBoardEvents::on_key_up (char keycode, std::function<void ()> callback) {
-  auto itr = m_keyup_callback_map.find(keycode);
-
-  if (itr != m_keyup_callback_map.end()) {
-    m_keyup_callback_map.at(keycode) = callback;
-    return;
-  } 
-
-  m_keyup_callback_map[keycode] = callback;
-}
-
 void KeyBoardEvents::m_process_key_press(unsigned short keycode) {
   auto itr = m_keydown_callback_map.find(static_cast<char>(keycode));
 

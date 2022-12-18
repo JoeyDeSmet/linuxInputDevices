@@ -43,24 +43,24 @@ int main() {
 
   KeyBoardEvents keyboard;
 
-  keyboard.on_key_down((char) KeyCode::ESC, []() {
+  keyboard.on_key_down(KeyCode::ESC, []() {
     std::lock_guard lock(mtx);
     shutdown_request.notify_all();
   });
 
-  keyboard.on_key_down((char) KeyCode::Z, []() {
+  keyboard.on_key_down(KeyCode::Z, []() {
     std::cout << "UP\r" << std::endl;
   });
   
-  keyboard.on_key_down((char) KeyCode::Q, []() {
+  keyboard.on_key_down(KeyCode::Q, []() {
     std::cout << "LEFT\r" << std::endl;
   });
 
-  keyboard.on_key_down((char) KeyCode::S, []() {
+  keyboard.on_key_down(KeyCode::S, []() {
     std::cout << "DOWN\r" << std::endl;
   });
 
-  keyboard.on_key_down((char) KeyCode::D, []() {
+  keyboard.on_key_down(KeyCode::D, []() {
     std::cout << "RIGHT\r" << std::endl;
   });
 
