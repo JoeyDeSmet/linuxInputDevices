@@ -17,8 +17,8 @@ class KeyBoardEvents {
     ~KeyBoardEvents();
 
   public:
-    template<typename Keycode, typename std::enable_if<std::is_enum<KeyCode>::value>::type* = nullptr>
-    void remove_events(KeyCode keycode) {
+    template<typename Keycode, typename std::enable_if<std::is_enum<Keycode>::value>::type* = nullptr>
+    void remove_events(Keycode keycode) {
       m_keyup_callback_map.erase((char) keycode);
       m_keydown_callback_map.erase((char) keycode);
     }

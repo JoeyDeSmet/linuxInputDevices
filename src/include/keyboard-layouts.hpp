@@ -179,8 +179,8 @@ namespace KeyboardLayouts {
       KP3,			
       KP0,			
       KPDOT	
-    }
+    };
 
-  };
+  }
 
 }

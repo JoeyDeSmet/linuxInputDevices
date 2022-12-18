@@ -56,7 +56,7 @@ int main() {
     std::cout << "LEFT\r" << std::endl;
   });
 
-  keyboard.on_key_down(KeyCode::S, []() {
+  keyboard.on_key_up(KeyCode::S, []() {
     std::cout << "DOWN\r" << std::endl;
   });
 
