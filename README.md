@@ -19,12 +19,12 @@ keyboard.on_key_down(KeyCode::A, [](){
 });
 
 keyboard.on_key_up(KeyCode::A, [](){
-  std::cout << "A key was released or being held down" << std::endl;
+  std::cout << "A key was released" << std::endl;
 });
 
 ```
 
-You can also register callback function for 2-key combination using the on_al_key_down function:
+You can also register callback function for 2-key combination using the on_alt_key_down function:
 
 ```cpp
 keyboard.on_alt_key_down(KeyCode::LEFTCTRL, KeyCode::C, [](){
