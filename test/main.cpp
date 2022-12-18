@@ -1,4 +1,4 @@
-#include <keyboard-events.hpp>
+#include <keyboard.hpp>
 #include <keyboard-layouts.hpp>
 
 #include <mutex>
@@ -41,7 +41,7 @@ int main() {
 
   signal(SIGINT, shutdown);
 
-  KeyBoardEvents keyboard;
+  Keyboard keyboard;
 
   keyboard.on_key_down(KeyCode::ESC, []() {
     std::lock_guard lock(mtx);

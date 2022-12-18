@@ -1,8 +1,8 @@
-#include <keyboard-events.hpp>
+#include <keyboard.hpp>
 
 #include <iostream>
 
-KeyBoardEvents::KeyBoardEvents() 
+Keyboard::Keyboard() 
   : m_held_keys(90)
 {
   // Open input device
@@ -13,10 +13,10 @@ KeyBoardEvents::KeyBoardEvents()
     throw std::runtime_error("Error in open keyboard");
   } 
 
-  m_thread = std::thread(&KeyBoardEvents::m_event_loop, this);
+  m_thread = std::thread(&Keyboard::m_event_loop, this);
 }
 
-KeyBoardEvents::~KeyBoardEvents() {
+Keyboard::~Keyboard() {
   m_shutdown = true;
 
   if (m_keyboard_fd)
@@ -25,29 +25,29 @@ KeyBoardEvents::~KeyBoardEvents() {
   m_thread.join();
 }
 
-void KeyBoardEvents::m_process_key_press(unsigned short keycode) {
+void Keyboard::m_process_key_press(unsigned short keycode) {
   m_held_keys[keycode] = true;
   
   for (auto& [event, callback] : m_event_callback_map) {
-    bool condition1 = (event.type == KeyboardEventTypes::KeyDown && event.code0 == keycode);
-    bool condition0 = (event.type == KeyboardEventTypes::AltKeyDown && m_held_keys[event.code0] && m_held_keys[event.code1]);
+    bool condition1 = (event.type == KeyboardEvents::KeyDown && event.code0 == keycode);
+    bool condition0 = (event.type == KeyboardEvents::AltKeyDown && m_held_keys[event.code0] && m_held_keys[event.code1]);
       
     if (condition0 || condition1) callback();
   }
 }
 
-void KeyBoardEvents::m_process_key_release(unsigned short keycode) {
+void Keyboard::m_process_key_release(unsigned short keycode) {
   m_held_keys[keycode] = false;
 
   for (auto& [event, callback] : m_event_callback_map) {
-    bool condition1 = (event.type == KeyboardEventTypes::KeyUp && event.code0 == keycode);
-    bool condition0 = (event.type == KeyboardEventTypes::AltKeyUp && m_held_keys[event.code0] && m_held_keys[event.code1]);
+    bool condition1 = (event.type == KeyboardEvents::KeyUp && event.code0 == keycode);
+    bool condition0 = (event.type == KeyboardEvents::AltKeyUp && m_held_keys[event.code0] && m_held_keys[event.code1]);
       
     if (condition0 || condition1) callback();
   }
 }
 
-void KeyBoardEvents::m_event_loop() {
+void Keyboard::m_event_loop() {
   fd_set fds;
   timeval timeout;
   

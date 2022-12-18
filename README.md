@@ -7,12 +7,12 @@ This is a C++ class that enables you to handle keyboard events in your applicati
 You can create a KeyBoardEvents object and register callback functions using the on_key_down and on_key_up functions for single keys:
 
 ```cpp
-#include <keyboard-events.hpp>
+#include <keyboard.hpp>
 
 // This should be your keyboard layout
 using namespace KeyboardLayouts::AZERTY;
 
-KeyBoardEvents keyboard;
+Keyboard keyboard;
 
 keyboard.on_key_down(KeyCode::A, [](){
   std::cout << "A key was pressed" << std::endl;
