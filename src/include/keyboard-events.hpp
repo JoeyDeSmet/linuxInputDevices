@@ -5,7 +5,7 @@
 enum class KeyboardEvents {
   KeyUp,
   KeyDown,
-  KeyRepeat,
+  KeyHeld,
 
   AltKeyUp,
   AltKeyDown,

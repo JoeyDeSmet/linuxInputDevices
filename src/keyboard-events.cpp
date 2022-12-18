@@ -25,6 +25,15 @@ Keyboard::~Keyboard() {
   m_thread.join();
 }
 
+void Keyboard::m_process_key_held(unsigned short keycode) {
+  for (auto& [event, callback] : m_event_callback_map) {
+    bool condition1 = (event.type == KeyboardEvents::KeyHeld && event.code0 == keycode);
+    bool condition0 = (event.type == KeyboardEvents::AltKeyHeld && m_held_keys[event.code0] && m_held_keys[event.code1]);
+      
+    if (condition0 || condition1) callback();
+  }
+}
+
 void Keyboard::m_process_key_press(unsigned short keycode) {
   m_held_keys[keycode] = true;
   
@@ -71,9 +80,8 @@ void Keyboard::m_event_loop() {
     if (bytes_read != sizeof(event) || event.type != EV_KEY) continue;
 
     // Auto repeat
-    if (event.value == 2) {
-      // TODO: Send key helddown events
-    } 
+    if (event.value == 2)
+      m_process_key_held(event.code);
     
     // Key press
     else if (event.value == 1)

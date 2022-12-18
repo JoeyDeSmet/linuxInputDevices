@@ -68,6 +68,12 @@ int main() {
     std::cout << "Try pressing ESC\r" << std::endl;
   });
 
+  keyboard.on_key_held(KeyCode::A, []() {
+    static int i = 0;
+    std::cout << i << "\r" << std::flush;
+    i++;
+  });
+
   std::unique_lock lock(mtx);
   shutdown_request.wait(lock);
 

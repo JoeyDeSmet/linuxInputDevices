@@ -48,6 +48,17 @@ class Keyboard {
     };
 
     template<typename Keycode, typename std::enable_if<std::is_enum<Keycode>::value>::type* = nullptr>
+    void on_key_held (Keycode keycode, std::function<void ()> callback) {
+      KeyboardEvent event = {
+        KeyboardEvents::KeyHeld,
+        (char) keycode,
+        0
+      };
+
+      m_event_callback_map.insert_or_assign(event, callback);
+    }
+
+    template<typename Keycode, typename std::enable_if<std::is_enum<Keycode>::value>::type* = nullptr>
     void on_alt_key_down(Keycode keycode, Keycode and_keycode, std::function<void()> callback) {
       KeyboardEvent event = {
         KeyboardEvents::AltKeyDown,
@@ -60,6 +71,7 @@ class Keyboard {
 
   private:
     void m_event_loop();
+    void m_process_key_held(unsigned short keycode);
     void m_process_key_press(unsigned short keycode);
     void m_process_key_release(unsigned short keycode);
 
