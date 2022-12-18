@@ -1,6 +1,10 @@
 #include <keyboard-events.hpp>
 
-KeyBoardEvents::KeyBoardEvents() {
+#include <iostream>
+
+KeyBoardEvents::KeyBoardEvents() 
+  : m_held_keys(90)
+{
   // Open input device
   m_keyboard_fd = open("/dev/input/event4", O_RDONLY);
   
@@ -22,19 +26,25 @@ KeyBoardEvents::~KeyBoardEvents() {
 }
 
 void KeyBoardEvents::m_process_key_press(unsigned short keycode) {
-  auto itr = m_keydown_callback_map.find(static_cast<char>(keycode));
-
-  if (itr == m_keydown_callback_map.end()) return;
-
-  itr->second();
+  m_held_keys[keycode] = true;
+  
+  for (auto& [event, callback] : m_event_callback_map) {
+    bool condition1 = (event.type == KeyboardEventTypes::KeyDown && event.code0 == keycode);
+    bool condition0 = (event.type == KeyboardEventTypes::AltKeyDown && m_held_keys[event.code0] && m_held_keys[event.code1]);
+      
+    if (condition0 || condition1) callback();
+  }
 }
 
 void KeyBoardEvents::m_process_key_release(unsigned short keycode) {
-  auto itr = m_keyup_callback_map.find(static_cast<char>(keycode));
+  m_held_keys[keycode] = false;
 
-  if (itr == m_keyup_callback_map.end()) return;
-
-  itr->second();
+  for (auto& [event, callback] : m_event_callback_map) {
+    bool condition1 = (event.type == KeyboardEventTypes::KeyUp && event.code0 == keycode);
+    bool condition0 = (event.type == KeyboardEventTypes::AltKeyUp && m_held_keys[event.code0] && m_held_keys[event.code1]);
+      
+    if (condition0 || condition1) callback();
+  }
 }
 
 void KeyBoardEvents::m_event_loop() {
@@ -60,6 +70,18 @@ void KeyBoardEvents::m_event_loop() {
     // Check if we received the correct amount of bytes
     if (bytes_read != sizeof(event) || event.type != EV_KEY) continue;
 
-    (event.value == 1) ? m_process_key_press(event.code) : m_process_key_release(event.code);
+    // Auto repeat
+    if (event.value == 2) {
+      // TODO: Send key helddown events
+    } 
+    
+    // Key press
+    else if (event.value == 1)
+      m_process_key_press(event.code);
+    
+    // Key release
+    else if (event.value == 0)
+      m_process_key_release(event.code);
+
   }
 }

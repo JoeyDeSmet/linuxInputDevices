@@ -64,6 +64,10 @@ int main() {
     std::cout << "RIGHT\r" << std::endl;
   });
 
+  keyboard.on_alt_key_down(KeyCode::LEFTCTRL, KeyCode::C, []() {
+    std::cout << "Try pressing ESC\r" << std::endl;
+  });
+
   std::unique_lock lock(mtx);
   shutdown_request.wait(lock);
 

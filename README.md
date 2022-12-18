@@ -4,7 +4,7 @@ This is a C++ class that enables you to handle keyboard events in your applicati
 
 ## Usage
 
-You can create a KeyBoardEvents object and register callback functions using the on_key_down and on_key_up functions:
+You can create a KeyBoardEvents object and register callback functions using the on_key_down and on_key_up functions for single keys:
 
 ```cpp
 #include <keyboard-events.hpp>
@@ -21,12 +21,21 @@ keyboard.on_key_down(KeyCode::A, [](){
 keyboard.on_key_up(KeyCode::A, [](){
   std::cout << "A key was released or being held down" << std::endl;
 });
+
 ```
 
-The on_key_down and on_key_up functions accept a key code and a callback function as arguments. 
+You can also register callback function for 2-key combination using the on_al_key_down function:
+
+```cpp
+keyboard.on_alt_key_down(KeyCode::LEFTCTRL, KeyCode::C, [](){
+  std::cout << "You pressed CRTL and C" << std::endl;
+});
+```
+
 The key codes are defined in the keyboard-layout.hpp file. 
 The callback function will be called when the corresponding event occurs.
 
+**To be implemented**
 You can also remove registered events using the remove_events function:
 
 ```cpp

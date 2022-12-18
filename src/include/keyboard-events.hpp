@@ -1,5 +1,8 @@
 #pragma once
 
+#include <keyboard-layouts.hpp>
+#include <keyboard-event-types.hpp>
+
 #include <fcntl.h>
 #include <unistd.h>
 #include <linux/input.h>
@@ -19,33 +22,41 @@ class KeyBoardEvents {
   public:
     template<typename Keycode, typename std::enable_if<std::is_enum<Keycode>::value>::type* = nullptr>
     void remove_events(Keycode keycode) {
-      m_keyup_callback_map.erase((char) keycode);
-      m_keydown_callback_map.erase((char) keycode);
+      // Not implemented yet
     }
 
     template<typename Keycode, typename std::enable_if<std::is_enum<Keycode>::value>::type* = nullptr>
     void on_key_up (Keycode keycode, std::function<void ()> callback) {
-      auto itr = m_keyup_callback_map.find((char) keycode);
+      KeyboardEvent event = {
+        KeyboardEventTypes::KeyUp,
+        (char) keycode,
+        0
+      };
 
-      if (itr != m_keyup_callback_map.end()) {
-        m_keyup_callback_map.at((char) keycode) = callback;
-        return;
-      } 
-
-      m_keyup_callback_map[(char) keycode] = callback;
+      m_event_callback_map.insert_or_assign(event, callback);
     }
 
     template<typename Keycode, typename std::enable_if<std::is_enum<Keycode>::value>::type* = nullptr>
     void on_key_down (Keycode keycode, std::function<void ()> callback) {
-      auto itr = m_keydown_callback_map.find((char) keycode);
+      KeyboardEvent event = {
+        KeyboardEventTypes::KeyDown,
+        (char) keycode,
+        0
+      };
 
-      if (itr != m_keydown_callback_map.end()) {
-        m_keydown_callback_map.at((char) keycode) = callback;
-        return;
-      } 
-
-      m_keydown_callback_map[(char) keycode] = callback;
+      m_event_callback_map.insert_or_assign(event, callback);
     };
+
+    template<typename Keycode, typename std::enable_if<std::is_enum<Keycode>::value>::type* = nullptr>
+    void on_alt_key_down(Keycode keycode, Keycode and_keycode, std::function<void()> callback) {
+      KeyboardEvent event = {
+        KeyboardEventTypes::AltKeyDown,
+        (char) keycode,
+        (char) and_keycode
+      };
+
+      m_event_callback_map.insert_or_assign(event, callback);
+    }
 
   private:
     void m_event_loop();
@@ -54,11 +65,13 @@ class KeyBoardEvents {
 
   private:
     std::thread m_thread;
-    std::unordered_map<char, std::function<void ()>> m_keyup_callback_map;
-    std::unordered_map<char, std::function<void ()>> m_keydown_callback_map;
+    std::unordered_map<KeyboardEvent, std::function<void ()>> m_event_callback_map;
 
   private:
     int m_keyboard_fd = 0;
     bool m_shutdown = false;
+
+  private:
+    std::vector<bool> m_held_keys;
 
 };
