@@ -44,11 +44,6 @@ keyboard.remove_events(KeyCode::A);
 
 This will remove the callback functions registered for the KeyCode::A key, for both up and down events.
 
-## **Note**
-
-The KeyBoardEvents class currently only supports reading events from the /dev/input/event4 device. 
-If you want to use a different device, you will need to modify the constructor of the KeyBoardEvents class.
-
 # License
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
