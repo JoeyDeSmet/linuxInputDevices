@@ -7,12 +7,23 @@ namespace InputDevices {
   Keyboard::Keyboard() 
     : m_held_keys(90)
   {
-    // Open input device
-    m_keyboard_fd = open("/dev/input/event4", O_RDONLY);
-    
-    if (m_keyboard_fd == -1) {
-      // Somthing went wrong
-      throw std::runtime_error("Error in open keyboard");
+    std::string path = "/dev/input/";
+
+    for (const auto& entry : std::filesystem::directory_iterator(path)) {
+      if (entry.is_directory()) continue;
+
+      if (entry.path().string().find("event") != std::string::npos) {
+        m_keyboard_fd = open(entry.path().c_str(), O_RDONLY);
+        if (m_keyboard_fd == -1) throw std::runtime_error("Error in open keyboard");
+
+        char name[256] = "";
+        ioctl(m_keyboard_fd, EVIOCGNAME(sizeof(name)), name);
+
+        std::string sname(name);
+        if (sname.find("keyboard") != std::string::npos) break;
+
+        close(m_keyboard_fd);
+      }
     } 
 
     m_thread = std::thread(&Keyboard::p_event_loop, this);

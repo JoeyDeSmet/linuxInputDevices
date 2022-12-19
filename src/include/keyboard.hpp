@@ -5,11 +5,13 @@
 
 #include <fcntl.h>
 #include <unistd.h>
+#include <sys/ioctl.h>
 #include <linux/input.h>
 
 #include <thread>
 #include <stdexcept>
 #include <functional>
+#include <filesystem>
 #include <type_traits>
 #include <unordered_map>
 
