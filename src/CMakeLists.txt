@@ -13,11 +13,21 @@ include_directories(
   ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-install(TARGETS linuxKeyboardEvents
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-  RUNTIME DESTINATION bin
-  INCLUDES DESTINATION include
+install (
+  TARGETS 
+    linuxKeyboardEvents
+  
+  LIBRARY 
+    DESTINATION lib
+  
+  ARCHIVE 
+    DESTINATION lib
+  
+  RUNTIME 
+    DESTINATION bin
+  
+  INCLUDES 
+    DESTINATION include
 )
 
 install(
