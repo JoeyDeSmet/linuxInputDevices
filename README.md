@@ -40,9 +40,23 @@ You can also remove registered events using the remove_events function:
 
 ```cpp
 keyboard.remove_events(KeyCode::A);
+
+InputDevices::KeyboardEvent event = {
+  InputDevices::KeyboardEvents::KeyDown,
+  (char) KeyCode::A,
+  0
+};
+
+// Removes the keydown event for the A key
+keyboard.remove_event(event);
 ```
 
 This will remove the callback functions registered for the KeyCode::A key, for both up and down events.
+
+## Include Keyboard layouts
+
+- QWERTY
+- AZERTY
 
 # License
 
