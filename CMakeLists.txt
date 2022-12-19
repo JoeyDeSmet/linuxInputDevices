@@ -3,6 +3,19 @@ cmake_minimum_required( VERSION 3.22.0 )
 project( linuxKeyboardEvents VERSION 0.0.1 LANGUAGES CXX )
 
 set( CMAKE_CXX_STANDARD 17 )
+set(CMAKE_INSTALL_PREFIX /usr/local/)
+
+set (KEYBOARD_EVENTS_DEFAULT_BUILD_TYPE "Release")
+if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  set (CMAKE_BUILD_TYPE ${KEYBOARD_EVENTS_DEFAULT_BUILD_TYPE})
+endif()
+
+if (WIN32)
+  message(SEND_ERROR "This project is for linux use only, it won't work on windows")  
+endif()
 
 add_subdirectory(src)
-add_subdirectory(test)
+
+if (BUILD_TEST_EXAMPLE)
+  add_subdirectory(test)
+endif()
