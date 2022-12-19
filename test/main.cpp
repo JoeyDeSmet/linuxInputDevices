@@ -41,7 +41,7 @@ int main() {
 
   signal(SIGINT, shutdown);
 
-  Keyboard keyboard;
+  InputDevices::Keyboard keyboard;
 
   keyboard.on_key_down(KeyCode::ESC, []() {
     std::lock_guard lock(mtx);

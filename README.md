@@ -12,7 +12,7 @@ You can create a KeyBoardEvents object and register callback functions using the
 // This should be your keyboard layout
 using namespace KeyboardLayouts::AZERTY;
 
-Keyboard keyboard;
+InputDevices::Keyboard keyboard;
 
 keyboard.on_key_down(KeyCode::A, [](){
   std::cout << "A key was pressed" << std::endl;
