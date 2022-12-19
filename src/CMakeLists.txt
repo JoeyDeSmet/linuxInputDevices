@@ -1,10 +1,10 @@
-add_library( linuxKeyboardEvents STATIC )
+add_library( linuxInputDevices STATIC )
 
-target_include_directories(linuxKeyboardEvents INTERFACE 
+target_include_directories(linuxInputDevices INTERFACE 
   ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-target_sources( linuxKeyboardEvents
+target_sources(linuxInputDevices
   PRIVATE
     keyboard.cpp
 )
@@ -15,7 +15,7 @@ include_directories(
 
 install (
   TARGETS 
-    linuxKeyboardEvents
+    linuxInputDevices
   
   LIBRARY 
     DESTINATION lib
@@ -36,5 +36,5 @@ install(
     include/keyboard-events.hpp 
     include/keyboard-layouts.hpp
   DESTINATION 
-    include/linuxKeyboardEvents/
+    include/linuxInputDevices/
 )

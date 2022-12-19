@@ -1,16 +1,20 @@
-# Linux Keyboard Events
+# Linux Input Devices
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This is a C++ class that enables you to handle keyboard events in your application. You can register callback functions for specific key press and key release events, and the class will handle the event loop and call the appropriate callback when an event occurs.
+This is a library that make it easy to use input devices on a linux based system. It uses raw events where you can specify your own callback to.
 
 ## Contents
-
-- [Usage](#usage)
-- [Included keyboard layouts](#included-keyboard-layouts)
+- [keyboard](#keyboard)
+  - [Usage](#usage)
+  - [Included keyboard layouts](#included-keyboard-layouts)
 - [Build and install](#build-and-install)
 
-## Usage
+## Keyboard
+
+This is a C++ class that enables you to handle keyboard events in your application. You can register callback functions for specific key press and key release events, and the class will handle the event loop and call the appropriate callback when an event occurs.
+
+### Usage
 
 You can create a KeyBoardEvents object and register callback functions using the on_key_down and on_key_up functions for single keys:
 
@@ -61,10 +65,12 @@ keyboard.remove_event(event);
 
 This will remove the callback functions registered for the KeyCode::A key, for both up and down events.
 
-## Included Keyboard layouts
+### Included Keyboard layouts
 
 - QWERTY
 - AZERTY
+
+<hr/>
 
 ## Build and install 
 

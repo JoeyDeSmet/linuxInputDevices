@@ -3,6 +3,6 @@ add_executable(keyboardEventTests
 )
 
 target_link_libraries(keyboardEventTests PUBLIC
-  linuxKeyboardEvents
+  linuxInputDevices
 )
 

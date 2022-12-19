@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 3.22.0 )
 
-project( linuxKeyboardEvents VERSION 0.0.1 LANGUAGES CXX )
+project( linuxInputDevices VERSION 0.0.2 LANGUAGES CXX )
 
 set( CMAKE_CXX_STANDARD 17 )
 set(CMAKE_INSTALL_PREFIX /usr/local/)
