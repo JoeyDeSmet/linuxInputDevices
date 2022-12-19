@@ -70,10 +70,10 @@ class Keyboard {
     }
 
   private:
-    void m_event_loop();
-    void m_process_key_held(unsigned short keycode);
-    void m_process_key_press(unsigned short keycode);
-    void m_process_key_release(unsigned short keycode);
+    void p_event_loop();
+    void p_process_key_held(unsigned short keycode);
+    void p_process_key_press(unsigned short keycode);
+    void p_process_key_release(unsigned short keycode);
 
   private:
     std::thread m_thread;

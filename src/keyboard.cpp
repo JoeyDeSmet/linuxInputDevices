@@ -13,7 +13,7 @@ Keyboard::Keyboard()
     throw std::runtime_error("Error in open keyboard");
   } 
 
-  m_thread = std::thread(&Keyboard::m_event_loop, this);
+  m_thread = std::thread(&Keyboard::p_event_loop, this);
 }
 
 Keyboard::~Keyboard() {
@@ -25,7 +25,7 @@ Keyboard::~Keyboard() {
   m_thread.join();
 }
 
-void Keyboard::m_process_key_held(unsigned short keycode) {
+void Keyboard::p_process_key_held(unsigned short keycode) {
   for (auto& [event, callback] : m_event_callback_map) {
     bool condition1 = (event.type == KeyboardEvents::KeyHeld && event.code0 == keycode);
     bool condition0 = (event.type == KeyboardEvents::AltKeyHeld && m_held_keys[event.code0] && m_held_keys[event.code1]);
@@ -34,7 +34,7 @@ void Keyboard::m_process_key_held(unsigned short keycode) {
   }
 }
 
-void Keyboard::m_process_key_press(unsigned short keycode) {
+void Keyboard::p_process_key_press(unsigned short keycode) {
   m_held_keys[keycode] = true;
   
   for (auto& [event, callback] : m_event_callback_map) {
@@ -45,7 +45,7 @@ void Keyboard::m_process_key_press(unsigned short keycode) {
   }
 }
 
-void Keyboard::m_process_key_release(unsigned short keycode) {
+void Keyboard::p_process_key_release(unsigned short keycode) {
   m_held_keys[keycode] = false;
 
   for (auto& [event, callback] : m_event_callback_map) {
@@ -56,7 +56,7 @@ void Keyboard::m_process_key_release(unsigned short keycode) {
   }
 }
 
-void Keyboard::m_event_loop() {
+void Keyboard::p_event_loop() {
   fd_set fds;
   timeval timeout;
   
@@ -81,15 +81,15 @@ void Keyboard::m_event_loop() {
 
     // Auto repeat
     if (event.value == 2)
-      m_process_key_held(event.code);
+      p_process_key_held(event.code);
     
     // Key press
     else if (event.value == 1)
-      m_process_key_press(event.code);
+      p_process_key_press(event.code);
     
     // Key release
     else if (event.value == 0)
-      m_process_key_release(event.code);
+      p_process_key_release(event.code);
 
   }
 }

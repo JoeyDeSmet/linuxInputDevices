@@ -6,7 +6,7 @@ target_include_directories(linuxKeyboardEvents INTERFACE
 
 target_sources( linuxKeyboardEvents
   PRIVATE
-    keyboard-events.cpp
+    keyboard.cpp
 )
 
 include_directories(
