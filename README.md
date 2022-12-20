@@ -16,7 +16,7 @@ This is a C++ class that enables you to handle keyboard events in your applicati
 
 ### Usage
 
-You can create a KeyBoardEvents object and register callback functions using the on_key_down and on_key_up functions for single keys:
+You can create a Keyboard object and register callback functions using the on_key_down and on_key_up functions for single keys:
 
 ```cpp
 #include <keyboard.hpp>
