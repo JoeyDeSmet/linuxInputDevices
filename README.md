@@ -88,7 +88,7 @@ sudo make install
 
 If you want to build the example in the test directory add the following parameter to the cmake step:
 
-- -DBUILD_TEST_EXAMPLE=TRUE
+- -DBUILD_EXAMPLE=TRUE
 
 # License
 

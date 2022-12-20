@@ -14,8 +14,10 @@ if (WIN32)
   message(SEND_ERROR "This project is for linux use only, it won't work on windows")  
 endif()
 
+add_compile_options(-Wall -Werror -Wextra -pedantic)
+
 add_subdirectory(src)
 
-if (BUILD_TEST_EXAMPLE)
-  add_subdirectory(test)
+if (BUILD_EXAMPLE)
+  add_subdirectory(example)
 endif()

@@ -47,7 +47,15 @@ namespace InputDevices {
        */
       template<typename Keycode, typename std::enable_if<std::is_enum<Keycode>::value>::type* = nullptr>
       void remove_events(Keycode keycode) {
-        // Not implemented yet
+        std::vector<KeyboardEvent> to_be_deleted;
+
+        for (auto& [event, callback] : m_event_callback_map) {
+          if (event.code0 == (char) keycode || event.code1 == (char) keycode) 
+            to_be_deleted.push_back(event);
+        }
+
+        for (auto event : to_be_deleted)
+          m_event_callback_map.erase(event);
       }
 
       /**
@@ -84,7 +92,7 @@ namespace InputDevices {
         };
 
         m_event_callback_map.insert_or_assign(event, callback);
-      };
+      }
 
       template<typename Keycode, typename std::enable_if<std::is_enum<Keycode>::value>::type* = nullptr>
       void on_key_held (Keycode keycode, std::function<void ()> callback) {
