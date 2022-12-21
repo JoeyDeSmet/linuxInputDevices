@@ -5,11 +5,10 @@
 Simple c++ library that makes it easy to assign events for different input devices on linux systems.
 
 # Contents
-- [keyboard](#keyboard)
+- [Keyboard](#keyboard)
   - [Using keyboard layouts](#using-keyboard-layouts)
   - [Creating events](#creating-event-callbacks)
   - [Removing events](#removeing-events)
-
 - [Build and install](#build-and-install)
 - [Example](#example)
 
