@@ -1,8 +1,8 @@
-add_executable(keyboardEventTests
+add_executable(exampleKeyboard
   main.cpp
 )
 
-target_link_libraries(keyboardEventTests PUBLIC
+target_link_libraries(exampleKeyboard PUBLIC
   linuxInputDevices
 )
 

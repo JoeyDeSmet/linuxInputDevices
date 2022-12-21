@@ -2,77 +2,92 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This is a library that make it easy to use input devices on a linux based system. It uses raw events where you can specify your own callback to.
+Simple c++ library that makes it easy to assign events for different input devices on linux systems.
 
-## Contents
+# Contents
 - [keyboard](#keyboard)
-  - [Usage](#usage)
-  - [Included keyboard layouts](#included-keyboard-layouts)
+  - [Using keyboard layouts](#using-keyboard-layouts)
+  - [Creating events](#creating-event-callbacks)
+  - [Removing events](#removeing-events)
+
 - [Build and install](#build-and-install)
+- [Example](#example)
 
-## Keyboard
+# Keyboard
 
-This is a C++ class that enables you to handle keyboard events in your application. You can register callback functions for specific key press and key release events, and the class will handle the event loop and call the appropriate callback when an event occurs.
+The keyboard class enables you to setup different callback functions, when a keyboard event occurs.
+This class creates it's own thread where it will listen for keyboard input events, and exectute your defined callback.
 
-### Usage
+## Usage
 
-You can create a Keyboard object and register callback functions using the on_key_down and on_key_up functions for single keys:
+You can create a Keyboard object and register callback functions using the on method.
+
+### Using keyboard layouts
+
+Keycodes for a *QWERTY* and *AZERTY* keyboard are included in the `keyboard-layouts.hpp` file.
+
+Both of them are enum classes called KeyCode, so to use the one on your device just define is as the following:
 
 ```cpp
-#include <keyboard.hpp>
+#include "keyboard-layouts.hpp"
 
-// This should be your keyboard layout
 using namespace KeyboardLayouts::AZERTY;
-
-InputDevices::Keyboard keyboard;
-
-keyboard.on_key_down(KeyCode::A, [](){
-  std::cout << "A key was pressed" << std::endl;
-});
-
-keyboard.on_key_up(KeyCode::A, [](){
-  std::cout << "A key was released" << std::endl;
-});
-
 ```
 
-You can also register callback function for 2-key combination using the on_alt_key_down function:
+### Creating event callbacks
+
+To define a callback function for an event you can you the `on(KeyboardEvent, callback)` method.
 
 ```cpp
-keyboard.on_alt_key_down(KeyCode::LEFTCTRL, KeyCode::C, [](){
-  std::cout << "You pressed CRTL and C" << std::endl;
-});
-```
+#include "keyboard.hpp"
+#include "keyboard-events.hpp"
 
-The key codes are defined in the keyboard-layout.hpp file. 
-The callback function will be called when the corresponding event occurs.
+using namespace InputDevices;
 
-**To be implemented**
-You can also remove registered events using the remove_events function:
+Keyboard keyboard;
 
-```cpp
-keyboard.remove_events(KeyCode::A);
-
-InputDevices::KeyboardEvent event = {
-  InputDevices::KeyboardEvents::KeyDown,
+// Create a keyboardEvent struct for when the key A is being held down
+KeyboardEvent event = {
+  KeyboardEvents::KeyHeld,
   (char) KeyCode::A,
   0
 };
 
-// Removes the keydown event for the A key
+// Add the event to the keyboard
+keyboard.on(event, []() {
+  std::cout << "A key being held down\n";
+});
+```
+
+I have also provided some handy helper methods to do this. So the folling code does the same as the above code but is a bit shorter.
+
+```cpp
+keyboard.on_key_held(KeyCode::A, []() {
+  std::cout << "A key being held down\n";
+});
+```
+
+### Removeing events
+
+There are two ways to delete an define event.
+
+1. `remove_events(KeyCode)`
+
+    This will remove all events where KeyCode::A is being used.
+
+```cpp
+keyboard.remove_events(KeyCode::A);
+```
+
+2. `remove_event(KeyboardEvent)`
+
+    This will remove a specific event.
+
+```cpp
 keyboard.remove_event(event);
 ```
 
-This will remove the callback functions registered for the KeyCode::A key, for both up and down events.
-
-### Included Keyboard layouts
-
-- QWERTY
-- AZERTY
-
-<hr/>
-
-## Build and install 
+# Build and install 
 
 This projects builds a static library using cmake. To build and install do the following.
 
@@ -86,9 +101,21 @@ make
 sudo make install
 ```
 
-If you want to build the example in the test directory add the following parameter to the cmake step:
+# Example
 
-- -DBUILD_EXAMPLE=TRUE
+If you want to build the example, replace the following lines from the build process.
+
+```bash
+# From
+cmake ..
+
+# To
+cmake -DBUILD_EXAMPLE=True
+```
+
+The example listens to keybboard differen keyboard events and prints lines to the terminal.
+
+The binary file will be placed in de `build/example/` directory as `exampleKeyboard`.
 
 # License
 

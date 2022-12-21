@@ -1,20 +1,19 @@
-#include <keyboard.hpp>
-#include <keyboard-layouts.hpp>
+#include "../src/include/keyboard.hpp"
+#include "../src/include/keyboard-layouts.hpp"
+
+#include <stdlib.h>
+#include <string.h>
+#include <termios.h>
 
 #include <mutex>
 #include <csignal>
-#include <stdlib.h>
-#include <termios.h>
-#include <string.h>
 #include <iostream>
 #include <condition_variable>
 
-namespace { // Used for signal handeling
-  std::mutex mtx;
-  std::condition_variable shutdown_request;
-}
+std::mutex mtx;
+std::condition_variable shutdown_request;
 
-void shutdown(int sig) {
+void shutdown(__attribute_maybe_unused__ int sig) {
   std::lock_guard lock(mtx);
   shutdown_request.notify_all();
 }

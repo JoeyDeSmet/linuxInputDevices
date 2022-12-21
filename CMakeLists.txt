@@ -14,7 +14,7 @@ if (WIN32)
   message(SEND_ERROR "This project is for linux use only, it won't work on windows")  
 endif()
 
-add_compile_options(-Wall -Werror -Wextra -pedantic)
+add_compile_options(-Wall -Werror -Wextra -pedantic -O3)
 
 add_subdirectory(src)
 
